@@ -170,5 +170,3 @@ def clear_cart():
     return jsonify({"message": "Carrito vaciado exitosamente"}), 200
 
 
-# if __name__ == "__main__":
-#    app.run(debug=True)

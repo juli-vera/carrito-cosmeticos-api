@@ -131,6 +131,12 @@ on/json" -Body '{"product_id": 1, "quantity": 1}'
 DELETE /cart/items/{product_id}
 ```
 
+Ejemplo de comando en consola:
+
+```text
+Invoke-RestMethod -Method DELETE http://localhost:5000/cart/items/1
+```
+
 ---
 
 ## Obtener total del carrito

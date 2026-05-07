@@ -116,13 +116,11 @@ Devuelve los productos agregados al carrito.
 POST /cart/items
 ```
 
-Ejemplo de body:
+Ejemplo de comando en consola:
 
-```json
-{
-  "product_id": 1,
-  "quantity": 2
-}
+```text
+Invoke-RestMethod -Method POST http://localhost:5000/cart/items -ContentType "applicati
+on/json" -Body '{"product_id": 1, "quantity": 1}'
 ```
 
 ---

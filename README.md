@@ -96,7 +96,7 @@ Desde Swagger se pueden probar los endpoints.
 GET /products
 ```
 
-Devuelve la lista de productos disponibles.
+Devuelve la lista de productos.
 
 ---
 

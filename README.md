@@ -13,8 +13,6 @@ La aplicación permite:
 * Calcular el total de la compra
 * Vaciar el carrito
 
-La persistencia se realiza en memoria, sin utilizar base de datos.
-
 ---
 
 # Tecnologías utilizadas
@@ -28,51 +26,51 @@ La persistencia se realiza en memoria, sin utilizar base de datos.
 
 # Instalación
 
-## 1. Clonar el repositorio
+## 1. Clonación del repositorio
 
-```bash
+```
 git clone <url-del-repositorio>
 ```
 
 ## 2. Entrar a la carpeta del proyecto
 
-```bash
+```
 cd cosmeticos
 ```
 
-## 3. Crear entorno virtual
+## 3. Se crea el entorno virtual
 
-```bash
+```
 python -m venv .venv
 ```
 
-## 4. Activar entorno virtual
+## 4. Se activa entorno virtual
 
 ### Windows
 
-```bash
+```
 .venv\Scripts\activate
 ```
 
 ---
 
-# Instalar dependencias
+# Instalación de dependencias
 
-```bash
+```
 pip install flask flasgger
 ```
 
 ---
 
-# Ejecutar la aplicación
+# Ejecutación de la aplicación
 
-```bash
+```
 python app.py
 ```
 
 La API se ejecutará en:
 
-```text
+```
 http://localhost:5000
 ```
 
@@ -86,7 +84,7 @@ La documentación interactiva de la API se encuentra en:
 http://localhost:5000/apidocs
 ```
 
-Desde Swagger es posible probar todos los endpoints.
+Desde Swagger se pueden probar los endpoints.
 
 ---
 
@@ -153,14 +151,16 @@ DELETE /cart
 
 ---
 
-# Tests unitarios
-
-Los tests fueron realizados utilizando unittest.
+# Tests unitarios con unittest
 
 Para ejecutarlos:
 
-```bash
+```
 python test_app.py
+```
+Para ver que este bien cada metodo:
+```
+python -m unittest <archivo>,<clase>,<metodo>
 ```
 
 ---
@@ -178,8 +178,3 @@ cosmeticos/
 └── README.md
 ```
 
----
-
-# Autor
-
-Proyecto realizado para la materia de Programación Web.

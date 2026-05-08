@@ -20,5 +20,4 @@ class ProductRepository:
     def get_by_id(self, product_id):
         return self._products.get(product_id)
 
-   # def exists(self, product_id: int) -> bool:
-   #     return product_id in self._products
+

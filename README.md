@@ -62,7 +62,7 @@ pip install flask flasgger
 
 ---
 
-# Ejecutación de la aplicación
+# Ejecución de la aplicación
 
 ```
 python app.py

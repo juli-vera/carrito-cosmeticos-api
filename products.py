@@ -5,15 +5,14 @@ class ProductRepository:
     """Repositorio de productos con persistencia en SQLite."""
 
     def get_all(self):
-        with get_connection() as conn:
-            rows = conn.execute(
-                "SELECT id, name, price FROM products ORDER BY id").fetchall()
-        return [dict(r) for r in rows]
+        conn = get_connection()
+        productos = conn.execute("SELECT * FROM products").fetchall()
+        conn.close()
+        return [dict(p) for p in productos]
 
-    def get_by_id(self, product_id: int):
-        with get_connection() as conn:
-            row = conn.execute(
-                "SELECT id, name, price FROM products WHERE id = ?", (
-                    product_id,)
-            ).fetchone()
-        return dict(row) if row else None
+    def get_by_id(self, product_id):
+        conn = get_connection()
+        producto = conn.execute("SELECT * FROM products WHERE id = ?", (product_id,)
+                                ).fetchone()
+        conn.close()
+        return dict(producto) if producto else None

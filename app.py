@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flasgger import Swagger
-
 from database import init_db
 from cart import CartManager
 from products import ProductRepository
@@ -82,15 +81,15 @@ def add_to_cart():
     if not data or "product_id" not in data:
         return jsonify({"error": "Se requiere product_id"}), 400
 
-    product = product_repo.get_by_id(data["product_id"])
-    if not product:
+    producto = product_repo.get_by_id(data["product_id"])
+    if not producto:
         return jsonify({"error": "Producto no encontrado"}), 404
 
     quantity = data.get("quantity", 1)
-    if not isinstance(quantity, int) or quantity < 1:
+    if quantity < 1:
         return jsonify({"error": "La cantidad debe ser un entero positivo"}), 400
 
-    cart_manager.add_item(product["id"], quantity)
+    cart_manager.add_item(producto["id"], quantity)
     return jsonify({"message": "Producto agregado al carrito"}), 200
 
 

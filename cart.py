@@ -5,39 +5,49 @@ class CartManager:
     """Gestiona el carrito de compras con persistencia en SQLite."""
 
     def get_items(self):
-        with get_connection() as conn:
-            rows = conn.execute(
-                "SELECT product_id, quantity FROM cart_items"
-            ).fetchall()
-        return [dict(r) for r in rows]
+        conn = get_connection()
+        items = conn.execute("SELECT * FROM cart_items"
+                             ).fetchall()
+        conn.close()
+        return [dict(i) for i in items]
 
-    def add_item(self, product_id: int, quantity: int = 1):
-        with get_connection() as conn:
+    def add_item(self, product_id, quantity=1):
+        conn = get_connection()
+        existe = conn.execute("SELECT * FROM cart_items WHERE product_id = ?", (product_id,)
+                              ).fetchone()
+
+        if existe:
             conn.execute(
-                """
-                INSERT INTO cart_items (product_id, quantity)
-                VALUES (?, ?)
-                ON CONFLICT(product_id) DO UPDATE
-                    SET quantity = quantity + excluded.quantity
-                """,
-                (product_id, quantity),
+                "UPDATE cart_items SET quantity = quantity + ? WHERE product_id = ?",
+                (quantity, product_id)
             )
+        else:
+            conn.execute(
+                "INSERT INTO cart_items VALUES (?, ?)",
+                (product_id, quantity)
+            )
+        conn.commit()
+        conn.close()
 
-    def remove_item(self, product_id: int) -> bool:
-        with get_connection() as conn:
-            cur = conn.execute(
-                "DELETE FROM cart_items WHERE product_id = ?", (product_id,)
-            )
-        return cur.rowcount > 0
+    def remove_item(self, product_id):
+        conn = get_connection()
+        resultado = conn.execute(
+            "DELETE FROM cart_items WHERE product_id = ?", (product_id,)
+        )
+        conn.commit()
+        conn.close()
+        return resultado.rowcount > 0
 
     def clear(self):
-        with get_connection() as conn:
-            conn.execute("DELETE FROM cart_items")
+        conn = get_connection()
+        conn.execute("DELETE FROM cart_items")
+        conn.commit()
+        conn.close()
 
-    def calculate_total(self, product_repo) -> int:
+    def calculate_total(self, product_repo):
         total = 0
         for item in self.get_items():
-            product = product_repo.get_by_id(item["product_id"])
-            if product:
-                total += product["price"] * item["quantity"]
+            producto = product_repo.get_by_id(item["product_id"])
+            if producto:
+                total += producto["price"] * item["quantity"]
         return total

@@ -16,20 +16,21 @@ Flask
 Flasgger (Swagger)
 unittest
 Instalación
+
 1. Clonación del repositorio
-git clone <url-del-repositorio>
+   git clone <url-del-repositorio>
 2. Entrar a la carpeta del proyecto
-cd cosmeticos
+   cd cosmeticos
 3. Se crea el entorno virtual
-python -m venv .venv
+   python -m venv .venv
 4. Se activa entorno virtual
-Windows
-.venv\Scripts\activate
-Instalación de dependencias
-pip install flask flasgger
-Ejecutación de la aplicación
-python app.py
-La API se ejecutará en:
+   Windows
+   .venv\Scripts\activate
+   Instalación de dependencias
+   pip install flask flasgger
+   Ejecutación de la aplicación
+   python app.py
+   La API se ejecutará en:
 
 http://localhost:5000
 Documentación Swagger

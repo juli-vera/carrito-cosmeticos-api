@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_PATH = "shop.db"
+DB_PATH = "database.db"
 
 
 def get_connection():

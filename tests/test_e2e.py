@@ -108,7 +108,16 @@ class TestPersistencia:
         page.goto(BASE)
         page.wait_for_selector(".add-btn")
         add_product(page, 0)
+        # Esperar a que el total este listo
+        page.wait_for_function("""
+            () => document.querySelector('#total-amount')?.innerText.trim().length > 0
+        """)
         total_antes = page.locator("#total-amount").inner_text()
         page.reload()
-        page.wait_for_selector("#total-amount", timeout=3000)
-        assert total_antes == page.locator("#total-amount").inner_text()
+        # Espera que el total vuelva a cargar
+        page.wait_for_function(
+            """
+            () => document.querySelector('#total-amount')?.innerText.trim().length > 0
+        """)
+        total_despues = page.locator("#total-amount").inner_text()
+        assert total_antes == total_despues

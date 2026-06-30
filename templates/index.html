@@ -173,7 +173,7 @@
         <p>Aún no hay productos</p>
       </div>
     </div>
-    <div class="cart-total" id="cart-total" style="display:none">
+    <div class="cart-total" id="cart-total">
       <span class="cart-total-label">Total</span>
       <span class="cart-total-amount" id="total-amount">$0</span>
     </div>
@@ -227,10 +227,15 @@
     const totalDiv = document.getElementById('cart-total');
     const actionsDiv = document.getElementById('cart-actions');
 
-    if (items.length === 0) {
-      container.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛍</div><p>Aún no hay productos</p></div>`;
-      totalDiv.style.display = 'none';
-      actionsDiv.style.display = 'none';
+    totalDiv.style.display='flex';
+    actionsDiv.style.display = 'flex';
+
+    if (items.length === 0) {`
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛍</div>
+        <p>Aún no hay productos</p>
+      </div>
+    `;
       return;
     }
 
@@ -246,8 +251,6 @@
     `).join('');
 
     document.getElementById('total-amount').textContent = fmt(totObj.total);
-    totalDiv.style.display = 'flex';
-    actionsDiv.style.display = 'flex';
   }
 
   async function addToCart(productId, name) {

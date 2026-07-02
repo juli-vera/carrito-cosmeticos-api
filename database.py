@@ -1,32 +1,47 @@
 import sqlite3
 
+# Nombre de la base de datos
 DB_PATH = "database.db"
+
+# Devuelve conexión a la base de datos
 
 
 def get_connection():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    conexion = sqlite3.connect(DB_PATH)
+
+    # Accede a las columnas por nombre
+    conexion.row_factory = sqlite3.Row
+    return conexion
+
+# Crea las tablas e inserta productos iniciales
 
 
 def init_db():
-    conn = get_connection()
-    conn.execute("""
+    conexion = get_connection()
+
+    # Crea tabla de productos
+    conexion.execute("""
         CREATE TABLE IF NOT EXISTS products (
             id      INTEGER PRIMARY KEY,
             name    TEXT    NOT NULL,
             price   INTEGER NOT NULL
             )
         """)
-    conn.execute("""
+    # crea tabla carrito
+    conexion.execute("""
         CREATE TABLE IF NOT EXISTS cart_items (
             product_id INTEGER PRIMARY KEY,
             quantity   INTEGER NOT NULL DEFAULT 1
         )
     """)
-    conn.commit()
+    conexion.commit()
 
-    cantidad = conn.execute("SELECT COUNT(*) FROM products").fetchone()[0]
+    # Verifica si existen productos
+    consulta = conexion.execute("SELECT COUNT(*) FROM products")
+    resultado = consulta.fetchone()
+    cantidad = resultado[0]
+
+    # Si la tabla esta vacia, inserta productos
     if cantidad == 0:
         productos = [
             (1, "Mascarilla",       3800),
@@ -38,7 +53,8 @@ def init_db():
             (7, "Delineador",       1800),
             (8, "Labial",           5900),
         ]
-        conn.executemany("INSERT INTO products VALUES (?, ?, ?)", productos)
-        conn.commit()
+        conexion.executemany(
+            "INSERT INTO products VALUES (?, ?, ?)", productos)
+        conexion.commit()
 
-    conn.close()
+    conexion.close()

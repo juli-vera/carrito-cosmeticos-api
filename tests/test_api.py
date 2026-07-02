@@ -1,9 +1,10 @@
 from app import app as flask_app
 from database import init_db
-import os
-import sys
+import os  # importa funciones del sistema operativo, modifica variables de entorno
+import sys  # modifica como python busca los achivos
 import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+# Para que SQLite use una base de datos en memoria, usa RAM
 os.environ["DB_PATH"] = ":memory:"
 
 
@@ -13,7 +14,7 @@ def client():
     init_db()
     with flask_app.test_client() as c:
         c.delete("/cart")
-        yield c
+        yield c  # Entrega el cliente al test
 
 
 def test_get_products_returns_8(client):
@@ -23,8 +24,12 @@ def test_get_products_returns_8(client):
 
 
 def test_products_have_required_fields(client):
-    for p in client.get("/products").get_json():
-        assert "id" in p and "name" in p and "price" in p
+    respuesta = client.get("/products")
+    productos = respuesta.get_json()
+    for producto in productos:
+        assert "id" in producto
+        assert "name" in producto
+        assert "price" in producto
 
 
 def test_cart_empty_initially(client):
@@ -34,7 +39,8 @@ def test_cart_empty_initially(client):
 def test_add_item_to_cart(client):
     client.post("/cart/items", json={"product_id": 1, "quantity": 1})
     cart = client.get("/cart").get_json()
-    assert len(cart) == 1 and cart[0]["product_id"] == 1
+    assert len(cart) == 1
+    assert cart[0]["product_id"] == 1
 
 
 def test_add_same_item_increments_quantity(client):
@@ -44,8 +50,9 @@ def test_add_same_item_increments_quantity(client):
 
 
 def test_add_invalid_product_returns_404(client):
-    assert client.post(
-        "/cart/items", json={"product_id": 999}).status_code == 404
+    respuesta = client.post(
+        "/cart/items", json={"product_id": 999})
+    assert respuesta.status_code == 404
 
 
 def test_add_missing_product_id_returns_400(client):
